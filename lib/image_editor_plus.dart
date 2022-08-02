@@ -569,109 +569,109 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
             ],
           ),
           child: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    BottomButton(
-                      icon: Icons.photo,
-                      text: '사진 가져오기',
-                      onTap: () async {
-                        var image =
-                            await picker.pickImage(source: ImageSource.gallery);
-                        if (image == null) return;
-                        await currentImage.load(image);
+            // child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                BottomButton(
+                  icon: Icons.photo,
+                  text: '사진 가져오기',
+                  onTap: () async {
+                    var image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image == null) return;
+                    await currentImage.load(image);
+                  },
+                ),
+                BottomButton(
+                  icon: Icons.crop,
+                  text: 'Crop',
+                  onTap: () async {
+                    resetTransformation();
+
+                    var data = await screenshotController.capture(
+                        pixelRatio: pixelRatio);
+
+                    Uint8List? img = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImageCropper(
+                          image: data!,
+                        ),
+                      ),
+                    );
+
+                    if (img == null) return;
+
+                    flipValue = 0;
+                    rotateValue = 0;
+
+                    await currentImage.load(img);
+                    setState(() {});
+                  },
+                ),
+                BottomButton(
+                  icon: Icons.filter_alt_outlined,
+                  //auto_awesome_outlined, auto_fix
+                  text: 'Filter',
+                  onTap: () async {
+                    resetTransformation();
+
+                    var data = await screenshotController.capture(
+                        pixelRatio: pixelRatio);
+
+                    Uint8List? editedImage = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImageFilters(
+                          image: data!,
+                        ),
+                      ),
+                    );
+
+                    if (editedImage == null) return;
+
+                    removedLayers.clear();
+                    undoLayers.clear();
+
+                    var layer = BackgroundLayerData(
+                      file: ImageItem(editedImage),
+                    );
+
+                    layers.add(layer);
+
+                    await layer.file.status;
+
+                    setState(() {});
+                  },
+                ),
+                BottomButton(
+                  icon: FontAwesomeIcons.faceSmile,
+                  text: '이모티콘',
+                  onTap: () async {
+                    EmojiLayerData? layer = await showModalBottomSheet(
+                      context: context,
+                      backgroundColor: black,
+                      builder: (BuildContext context) {
+                        return const Emojies();
                       },
-                    ),
-                    BottomButton(
-                      icon: Icons.crop,
-                      text: 'Crop',
-                      onTap: () async {
-                        resetTransformation();
+                    );
 
-                        var data = await screenshotController.capture(
-                            pixelRatio: pixelRatio);
+                    if (layer == null) return;
 
-                        Uint8List? img = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImageCropper(
-                              image: data!,
-                            ),
-                          ),
-                        );
+                    undoLayers.clear();
+                    removedLayers.clear();
+                    layers.add(layer);
 
-                        if (img == null) return;
-
-                        flipValue = 0;
-                        rotateValue = 0;
-
-                        await currentImage.load(img);
-                        setState(() {});
-                      },
-                    ),
-                    BottomButton(
-                      icon: Icons.filter_alt_outlined,
-                      //auto_awesome_outlined, auto_fix
-                      text: 'Filter',
-                      onTap: () async {
-                        resetTransformation();
-
-                        var data = await screenshotController.capture(
-                            pixelRatio: pixelRatio);
-
-                        Uint8List? editedImage = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImageFilters(
-                              image: data!,
-                            ),
-                          ),
-                        );
-
-                        if (editedImage == null) return;
-
-                        removedLayers.clear();
-                        undoLayers.clear();
-
-                        var layer = BackgroundLayerData(
-                          file: ImageItem(editedImage),
-                        );
-
-                        layers.add(layer);
-
-                        await layer.file.status;
-
-                        setState(() {});
-                      },
-                    ),
-                    BottomButton(
-                      icon: FontAwesomeIcons.faceSmile,
-                      text: '이모티콘',
-                      onTap: () async {
-                        EmojiLayerData? layer = await showModalBottomSheet(
-                          context: context,
-                          backgroundColor: black,
-                          builder: (BuildContext context) {
-                            return const Emojies();
-                          },
-                        );
-
-                        if (layer == null) return;
-
-                        undoLayers.clear();
-                        removedLayers.clear();
-                        layers.add(layer);
-
-                        setState(() {});
-                      },
-                    ),
-                  ],
+                    setState(() {});
+                  },
                 ),
               ],
             ),
+            // ],
+            // ),
           ),
         ),
       ),
