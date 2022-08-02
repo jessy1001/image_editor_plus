@@ -76,7 +76,7 @@ class _EmojiLayerOverlayState extends State<EmojiLayerOverlay> {
                   Navigator.pop(context);
                   widget.onUpdate();
                   // back(context);
-                  // setState(() {});
+                  setState(() {});
                 },
                 child: Text(
                   i18n('Remove'),
