@@ -570,11 +570,21 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
           ),
           child: SafeArea(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ListView(
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
+                    BottomButton(
+                      icon: Icons.photo,
+                      text: '사진 가져오기',
+                      onTap: () async {
+                        var image =
+                            await picker.pickImage(source: ImageSource.gallery);
+                        if (image == null) return;
+                        await currentImage.load(image);
+                      },
+                    ),
                     BottomButton(
                       icon: Icons.crop,
                       text: 'Crop',
