@@ -583,8 +583,8 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                     var image =
                         await picker.pickImage(source: ImageSource.gallery);
                     if (image == null) return;
-                    // await loadImage(image);
-                    await currentImage.load(image);
+                    await loadImage(image);
+                    // await currentImage.load(image);
                   },
                 ),
                 BottomButton(
