@@ -578,7 +578,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
               children: <Widget>[
                 BottomButton(
                   icon: Icons.photo,
-                  text: '사진 가져오기',
+                  text: '갤러리',
                   onTap: () async {
                     var image =
                         await picker.pickImage(source: ImageSource.gallery);
