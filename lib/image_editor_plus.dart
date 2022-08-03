@@ -576,17 +576,17 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                // BottomButton(
-                //   icon: Icons.photo,
-                //   text: '사진 가져오기',
-                //   onTap: () async {
-                //     var image =
-                //         await picker.pickImage(source: ImageSource.gallery);
-                //     if (image == null) return;
-                //     // await loadImage(image);
-                //     await currentImage.load(image);
-                //   },
-                // ),
+                BottomButton(
+                  icon: Icons.photo,
+                  text: '사진 가져오기',
+                  onTap: () async {
+                    var image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image == null) return;
+                    // await loadImage(image);
+                    await currentImage.load(image);
+                  },
+                ),
                 BottomButton(
                   icon: Icons.crop,
                   text: 'Crop',
