@@ -70,19 +70,19 @@ class _EmojiLayerOverlayState extends State<EmojiLayerOverlay> {
           const SizedBox(height: 10),
           Row(children: [
             Expanded(
-              child: TextButton(
-                onPressed: () {
-                  removedLayers.add(layers.removeAt(widget.index));
-                  Navigator.pop(context);
-                  widget.onUpdate();
-                  // back(context);
-                  setState(() {});
-                },
-                child: Text(
-                  i18n('Remove'),
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
+              child: Container(
+                  // onPressed: () {
+                  //   removedLayers.add(layers.removeAt(widget.index));
+                  //   Navigator.pop(context);
+                  //   widget.onUpdate();
+                  //   // back(context);
+                  //   setState(() {});
+                  // },
+                  // child: Text(
+                  //   i18n('Remove'),
+                  //   style: const TextStyle(color: Colors.white),
+                  // ),
+                  ),
             ),
           ]),
         ],
